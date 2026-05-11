@@ -1,0 +1,28 @@
+services:
+  paytm:
+    container_name: cont1
+    image: nginx
+    ports:
+      - "1111:80"
+    restart: always
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.25"
+          memory: 64M
+    env_file:
+      - ./svc1.env
+
+
+  bus:
+    container_name: cont2
+    image: httpd
+    ports:
+      - "2222:80"
+    restart: always
+    env_file:
+      - ./svc2.env
+

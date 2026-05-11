@@ -1,0 +1,30 @@
+services:
+  bus_ticket:
+    container_name: buscontainer
+    build: bus/
+    ports:
+      - "1111:80"
+    networks:
+      - bus_network
+    volumes:
+      - busvolume:/bus/
+
+  flight_ticket:
+    container_name: flightcontainer
+    build: flight/
+    ports:
+      - "2222:80"
+    networks:
+      - flight_network
+    volumes:
+      - flightvolume:/flight/
+
+networks:
+  bus_network:
+    driver: bridge
+  flight_network:
+    driver: bridge
+
+volumes:
+  busvolume:
+  flightvolume:

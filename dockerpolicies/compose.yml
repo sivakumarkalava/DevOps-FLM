@@ -1,0 +1,7 @@
+services:
+  food:
+    container_name: paytm
+    image: nginx
+    ports:
+      - "1111:80"
+
