@@ -1,0 +1,92 @@
+services:
+  bus:
+    image: shaikmustafa/paytm:bus
+    ports:
+      - "1111:80"
+    networks:
+      - bus-network
+    restart: always
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.25"
+          memory: 64M
+    volumes:
+      - busvolume:/bus/
+    environment:
+      username: bususer
+    secrets:
+      - bus_password
+
+  movie:
+    image: shaikmustafa/paytm:movie
+    ports:
+      - "2222:80"
+    restart: always
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.25"
+          memory: 64M
+    networks:
+      - movie-network
+    volumes:
+      - movievolume:/movie/
+    environment:
+      username: movieuser
+    secrets:
+      - movie_password
+
+  bank:
+    image: shaikmustafa/paytm:bank
+    ports:
+      - "3333:80"
+    restart: always
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 128M
+        reservations:
+          cpus: "0.25"
+          memory: 64M
+    networks:
+      - bank-network
+    volumes:
+      - bankvolume:/bank/
+    environment:
+      username: bankuser
+    secrets:
+      - bank_password
+
+
+
+networks:
+   bus-network:
+     driver: overlay
+   movie-network:
+     driver: overlay
+   bank-network:
+     driver: overlay
+
+volumes:
+  busvolume:
+  movievolume:
+  bankvolume:
+
+secrets:
+  bus_password:
+    external: true
+  movie_password:
+    external: true
+  bank_password:
+    external: true
